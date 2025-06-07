@@ -6,7 +6,7 @@ public class LookAtMouse : MonoBehaviour
 {
     public GameObject projectilePrefab;
     public Transform firePoint;
-    public float fireInterval = 1f;
+    public float fireInterval = 0.4f;
 
     private float timer;
 

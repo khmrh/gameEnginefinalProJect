@@ -1,14 +1,14 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class Players : MonoBehaviour
 {
-    public float moveSpeed = 2f;
+    public float moveSpeed = 10f;
+
+    [Header("체력 설정")]
+    public int maxHealth = 5;
+    private int currentHealth;
 
     [SerializeField] Sprite spriteup;
     [SerializeField] Sprite spriteDown;
@@ -30,6 +30,9 @@ public class Players : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sR = GetComponent<SpriteRenderer>();
         rb.bodyType = RigidbodyType2D.Kinematic;
+
+        currentHealth = maxHealth;
+        GameManager.Instance?.UpdateHealthUI(currentHealth, maxHealth);
     }
 
     private void Update()
@@ -43,17 +46,11 @@ public class Players : MonoBehaviour
         {
             if (Mathf.Abs(input.x) > Mathf.Abs(input.y))
             {
-                if (input.x > 0)
-                    sR.sprite = spriteRight;
-                else if (input.x < 0)
-                    sR.sprite = spriteLeft;
+                sR.sprite = input.x > 0 ? spriteRight : spriteLeft;
             }
             else
             {
-                if (input.y > 0)
-                    sR.sprite = spriteup;
-                else
-                    sR.sprite = spriteDown;
+                sR.sprite = input.y > 0 ? spriteup : spriteDown;
             }
         }
     }
@@ -63,4 +60,22 @@ public class Players : MonoBehaviour
         rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime);
     }
 
+    public void TakeDamage(int amount)
+    {
+        currentHealth -= amount;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
+        GameManager.Instance?.UpdateHealthUI(currentHealth, maxHealth);
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        Debug.Log("플레이어 사망");
+        // 사망 처리 로직 추가 가능 (재시작, 게임 오버 등)
+    }
 }

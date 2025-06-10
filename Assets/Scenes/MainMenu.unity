@@ -1287,7 +1287,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uADF8\uB300\uB97C \uB3C4\uC6B0\uB9AC\n"
+  m_text: Help You
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 617cece71d27027458cbd8779894efb8, type: 2}
   m_sharedMaterial: {fileID: 3166786289369296209, guid: 617cece71d27027458cbd8779894efb8, type: 2}
@@ -2095,7 +2095,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uB5A0\uB098\uAC00\uAE30\n"
+  m_text: End Game
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 617cece71d27027458cbd8779894efb8, type: 2}
   m_sharedMaterial: {fileID: 3166786289369296209, guid: 617cece71d27027458cbd8779894efb8, type: 2}
@@ -3516,7 +3516,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC804\uC7A5\uC18D\uC73C\uB85C"
+  m_text: StartGame
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 617cece71d27027458cbd8779894efb8, type: 2}
   m_sharedMaterial: {fileID: 3166786289369296209, guid: 617cece71d27027458cbd8779894efb8, type: 2}

@@ -76,6 +76,6 @@ public class Players : MonoBehaviour
     void Die()
     {
         Debug.Log("플레이어 사망");
-        // 사망 처리 로직 추가 가능 (재시작, 게임 오버 등)
+        GameManager.Instance?.GameOver(); // 게임 오버 호출
     }
 }

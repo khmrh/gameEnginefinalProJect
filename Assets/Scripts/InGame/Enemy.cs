@@ -38,17 +38,18 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.CompareTag("Player"))
         {
-            Players playersScript = collision.gameObject.GetComponent<Players>();
+            Players playersScript = collision.GetComponent<Players>();
             if (playersScript != null)
             {
                 playersScript.TakeDamage(damage);
             }
         }
     }
+
 
     public void TakeDamage(int amount)
     {

@@ -2,15 +2,16 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI; // ← 추가
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
     [Header("UI 요소")]
-    public TextMeshProUGUI timerText;   // 생존 시간 텍스트
-    public TextMeshProUGUI healthText;  // 체력 표시 텍스트
-    public GameObject gameOverPanel;    // 게임 오버 패널
+    public TextMeshProUGUI timerText;
+    public GameObject gameOverPanel;
+    public Slider healthSlider;  // ← 추가
 
     private float elapsedTime;
     private bool isGameOver = false;
@@ -27,7 +28,6 @@ public class GameManager : MonoBehaviour
     {
         if (isGameOver) return;
 
-        // 생존 시간 갱신
         elapsedTime += Time.deltaTime;
 
         int minutes = Mathf.FloorToInt(elapsedTime / 60f);
@@ -37,14 +37,13 @@ public class GameManager : MonoBehaviour
 
     public void UpdateHealthUI(int current, int max)
     {
-        if (healthText != null)
+        if (healthSlider != null)
         {
-            int percent = Mathf.CeilToInt((float)current / max * 100f);
-            healthText.text = $"HP {current} / {max} ({percent}%)";
+            healthSlider.value = (float)current / max;
         }
         else
         {
-            Debug.LogWarning("healthText가 연결되어 있지 않습니다!");
+            Debug.LogWarning("Health Slider가 연결되어 있지 않습니다!");
         }
     }
 
@@ -54,14 +53,9 @@ public class GameManager : MonoBehaviour
 
         isGameOver = true;
         Time.timeScale = 0f;
-
         if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(true);
-        }
-        else
-        {
-            Debug.LogWarning("GameOverPanel이 연결되지 않았습니다!");
         }
     }
 
@@ -71,8 +65,9 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void BackToMain()
+    public void GoToMainMenu()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
     }
 }

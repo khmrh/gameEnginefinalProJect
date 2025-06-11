@@ -8,6 +8,7 @@ public class ButtonManager : MonoBehaviour
 {
     public void startbutton()
     {
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene("ingame");
     }
 

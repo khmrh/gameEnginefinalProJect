@@ -7972,8 +7972,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerText: {fileID: 1526873996}
-  gameOverPanel: {fileID: 875127875}
   healthSlider: {fileID: 1617468366}
+  gameOverPanel: {fileID: 875127875}
 --- !u!4 &408959657
 Transform:
   m_ObjectHideFlags: 0
@@ -8353,8 +8353,6 @@ MonoBehaviour:
   spriteDown: {fileID: -1877559577, guid: aa2ee1098f098654cb4d6157bab6e50b, type: 3}
   spriteLeft: {fileID: -1322358067, guid: aa2ee1098f098654cb4d6157bab6e50b, type: 3}
   spriteRight: {fileID: 1116943414, guid: aa2ee1098f098654cb4d6157bab6e50b, type: 3}
-  Scoretext: {fileID: 0}
-  score: 0
 --- !u!1 &729395044
 GameObject:
   m_ObjectHideFlags: 0
@@ -9214,7 +9212,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 408959656}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: GoToMainMenu
+        m_MethodName: ReturnToMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

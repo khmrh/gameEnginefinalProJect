@@ -1,15 +1,13 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 [Serializable]
 public class PlayerData
 {
     public List<string> collectedItems = new List<string>();
     public int stage = 1;
+    public float bestSurvivalTime = 0f;
 }
 
 public class GameDataManager : MonoBehaviour
@@ -28,6 +26,8 @@ public class GameDataManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        playerData = LoadData(); // 자동 로드
     }
 
     public void SaveData(PlayerData playerData)
@@ -40,10 +40,22 @@ public class GameDataManager : MonoBehaviour
 
     public PlayerData LoadData()
     {
-        string file = Application.persistentDataPath + "/Player_data.json";
+        string filePath = Application.persistentDataPath + "/Player_data.json";
         if (System.IO.File.Exists(filePath))
-        { 
-            string
+        {
+            string json = System.IO.File.ReadAllText(filePath);
+            return JsonUtility.FromJson<PlayerData>(json);
+        }
+        return new PlayerData();
+    }
+
+    public void SaveSurvivalTime(float time)
+    {
+        if (time > playerData.bestSurvivalTime)
+        {
+            playerData.bestSurvivalTime = time;
+            SaveData(playerData);
+            Debug.Log("최고 생존 시간 갱신됨: " + time);
         }
     }
 }

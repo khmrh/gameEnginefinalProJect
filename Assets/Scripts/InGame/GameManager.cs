@@ -1,8 +1,7 @@
-using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI; // ← 추가
 
 public class GameManager : MonoBehaviour
 {
@@ -10,10 +9,12 @@ public class GameManager : MonoBehaviour
 
     [Header("UI 요소")]
     public TextMeshProUGUI timerText;
-    public GameObject gameOverPanel;
-    public Slider healthSlider;  // ← 추가
+    public Slider healthSlider;
+    public GameObject gameOverPanel; // 게임 오버 패널
 
     private float elapsedTime;
+    public float ElapsedTime => elapsedTime;
+
     private bool isGameOver = false;
 
     private void Awake()
@@ -39,35 +40,33 @@ public class GameManager : MonoBehaviour
     {
         if (healthSlider != null)
         {
-            healthSlider.value = (float)current / max;
-        }
-        else
-        {
-            Debug.LogWarning("Health Slider가 연결되어 있지 않습니다!");
+            healthSlider.maxValue = max;
+            healthSlider.value = current;
         }
     }
 
-    public void GameOver()
+    public void EndGame()
     {
         if (isGameOver) return;
 
         isGameOver = true;
-        Time.timeScale = 0f;
-        if (gameOverPanel != null)
-        {
-            gameOverPanel.SetActive(true);
-        }
+
+        GameDataManager.Instance.SaveSurvivalTime(elapsedTime);
+
+        Time.timeScale = 0f; // 시간 정지
+        gameOverPanel.SetActive(true); // 게임오버 UI 활성화
     }
 
+    // 버튼 함수
     public void RestartGame()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    public void GoToMainMenu()
+    public void ReturnToMainMenu()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("MainMenu"); // 메인 메뉴 씬 이름에 맞게 수정
     }
 }

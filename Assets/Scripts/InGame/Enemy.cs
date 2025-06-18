@@ -12,6 +12,18 @@ public class Enemy : MonoBehaviour
 
     public int damage = 1; // 공격력
 
+    public GameObject[] dropItems; // 3가지 아이템 프리팹
+    public float dropChance = 0.3f; // 30% 확률
+
+    public void TryDropItem()
+    {
+        if (Random.value <= dropChance)
+        {
+            int index = Random.Range(0, dropItems.Length);
+            Instantiate(dropItems[index], transform.position, Quaternion.identity);
+        }
+    }
+
     public void SetHealthMultiplier(float multiplier)
     {
         currentHealth = Mathf.RoundToInt(baseHealth * multiplier);
@@ -62,6 +74,8 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
+        GetComponent<ItemDrop>()?.TryDropItem();
         Destroy(gameObject);
     }
+
 }

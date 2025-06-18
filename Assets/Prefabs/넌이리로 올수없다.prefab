@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8100677009969155138}
   - component: {fileID: 5308791577463836860}
+  - component: {fileID: -4182875656336047}
+  - component: {fileID: 5794100215171565295}
   - component: {fileID: 3028635249309402664}
   m_Layer: 0
   m_Name: "\uB10C\uC774\uB9AC\uB85C \uC62C\uC218\uC5C6\uB2E4"
@@ -27,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 7272685730227040552}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.03, y: -0.26, z: 0.82}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -85,6 +87,33 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-4182875656336047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7272685730227040552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f9c1226b09f53145990df05122a6045, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
+  damageInterval: 1
+--- !u!114 &5794100215171565295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7272685730227040552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4d0a1eea0caa9e4aa78a44c44fd69ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemType: 0
 --- !u!61 &3028635249309402664
 BoxCollider2D:
   m_ObjectHideFlags: 0

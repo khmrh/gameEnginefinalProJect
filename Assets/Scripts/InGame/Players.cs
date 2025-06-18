@@ -14,14 +14,18 @@ public class Players : MonoBehaviour
     [SerializeField] Sprite spriteLeft;
     [SerializeField] Sprite spriteRight;
 
-    Rigidbody2D rb;
-    SpriteRenderer sR;
-    Vector2 input, velocity;
+    private Rigidbody2D rb;
+    private SpriteRenderer sR;
+    private Vector2 input, velocity;
+
+    private Collider2D playerCollider; // ← 추가: 충돌 무시용
+    private bool isInvincible = false; // ← 무적 상태 여부
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         sR = GetComponent<SpriteRenderer>();
+        playerCollider = GetComponent<Collider2D>(); // ← Collider2D 가져오기
         rb.bodyType = RigidbodyType2D.Kinematic;
     }
 
@@ -62,8 +66,17 @@ public class Players : MonoBehaviour
         rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime);
     }
 
+    public void Heal(int amount)
+    {
+        currentHealth += amount;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        GameManager.Instance?.UpdateHealthUI(currentHealth, maxHealth);
+    }
+
     public void TakeDamage(int amount)
     {
+        if (isInvincible) return;
+
         currentHealth -= amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         GameManager.Instance?.UpdateHealthUI(currentHealth, maxHealth);
@@ -72,6 +85,23 @@ public class Players : MonoBehaviour
         {
             Die();
         }
+        else
+        {
+            StartCoroutine(InvincibilityCoroutine()); // 무적 시작
+        }
+    }
+
+    System.Collections.IEnumerator InvincibilityCoroutine()
+    {
+        isInvincible = true;
+        if (playerCollider != null)
+            playerCollider.enabled = false;
+
+        yield return new WaitForSeconds(1f); // 1초 무적
+
+        if (playerCollider != null)
+            playerCollider.enabled = true;
+        isInvincible = false;
     }
 
     void Die()

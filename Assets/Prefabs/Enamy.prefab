@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 415182299548817503}
   - component: {fileID: 1344261552072162901}
   - component: {fileID: 8473477165347199387}
+  - component: {fileID: -5602245212684135583}
   - component: {fileID: 5213499395465987611}
   m_Layer: 0
   m_Name: Enamy
@@ -101,6 +102,22 @@ MonoBehaviour:
   baseHealth: 3
   moveSpeed: 2
   damage: 1
+  dropItems: []
+  dropChance: 0.3
+--- !u!114 &-5602245212684135583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9177360128600864349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a9a46578bad90441aae16c2c12a4bab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropItems: []
+  dropChance: 0.3
 --- !u!61 &5213499395465987611
 BoxCollider2D:
   m_ObjectHideFlags: 0

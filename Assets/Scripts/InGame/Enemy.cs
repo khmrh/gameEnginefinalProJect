@@ -62,6 +62,13 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public void ApplyDifficultyScaling(float healthMultiplier, float speedMultiplier)
+    {
+        maxHealth = Mathf.RoundToInt(maxHealth * healthMultiplier);
+        currentHealth = maxHealth;
+        moveSpeed *= speedMultiplier;
+    }
+
 
     public void TakeDamage(int amount)
     {

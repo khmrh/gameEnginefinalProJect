@@ -3,40 +3,51 @@ using TMPro;
 
 public class PlayerItemEffects : MonoBehaviour
 {
+
+    public int GetZoneLevel() => zoneLevel;
+    public int GetRotatorLevel() => rotatorLevel;
+    public int GetHealingShotLevel() => healingShotLevel;
+
     [Header("1. 장판형 (Zone Effect)")]
-    public GameObject zoneEffect;
-    public float zoneDamageInterval = 1f;
+    public GameObject zoneEffectPrefab;
+    private GameObject zoneEffectInstance;
+    private int zoneLevel = 0;
+    public bool useZone = false;
 
     [Header("2. 회전형 (Rotator Effect)")]
     public GameObject rotatorEffect;
     public float rotationSpeed = 180f;
     public float rotationRadius = 1.5f;
     private float rotationAngle = 0f;
+    [SerializeField] GameObject rotatorPrefab;
+    [SerializeField] RotatorManager rotatorManager;
+    private int rotatorLevel = 0;
+    public bool useRotator = false;
 
-    [Header("3. 발사형 (Healing Shot)")]
+    [Header("3. 힐링샷 (Healing Shot)")]
     public GameObject healingShotPrefab;
-    public Transform firePoint;
-    public float fireInterval = 1.5f;
+    public float healingFireInterval = 1.5f;
+    private float nextHealingFireTime = 0f;
     public float healChance = 0.3f;
-    private float nextFireTime = 0f;
+    private int healingShotLevel = 0;
+    public bool useHealingShot = false;
+
+    [Header("4. 기본 자동 공격")]
+    public GameObject basicShotPrefab;
+    public float basicFireInterval = 0.5f;
+    private float nextBasicFireTime = 0f;
+    private int basicShotLevel = 1;
+
+    [Header("공격 발사 위치")]
+    public Transform firePoint;
 
     [Header("UI 표시")]
     public TextMeshProUGUI zoneText;
     public TextMeshProUGUI rotatorText;
-    public TextMeshProUGUI projectileText;
-
-    [Header("아이템 활성화 여부")]
-    public bool useZone = true;
-    public bool useRotator = true;
-    public bool useProjectile = true;
-
-    private int zoneLevel = 0;
-    private int rotatorLevel = 0;
-    private int projectileLevel = 0;
+    public TextMeshProUGUI healingShotText;
+    public TextMeshProUGUI basicShotText;
 
     public int baseDamage = 1;
-
-
     private Transform player;
 
     private void Start()
@@ -47,19 +58,28 @@ public class PlayerItemEffects : MonoBehaviour
 
     private void Update()
     {
-        // 장판 처리
-        if (useZone)
+        // 기본 공격
+        if (Time.time >= nextBasicFireTime)
         {
-            zoneEffect.SetActive(true);
-            zoneEffect.transform.position = player.position;
+            FireBasicShot();
+            nextBasicFireTime = Time.time + basicFireInterval;
         }
-        else
+
+        // 힐링샷
+        if (useHealingShot && Time.time >= nextHealingFireTime)
         {
-            zoneEffect.SetActive(false);
+            FireHealingShot();
+            nextHealingFireTime = Time.time + healingFireInterval;
+        }
+
+        // 장판 처리
+        if (useZone && zoneEffectInstance != null)
+        {
+            zoneEffectInstance.transform.position = transform.position;
         }
 
         // 회전 처리
-        if (useRotator)
+        if (useRotator && rotatorEffect != null)
         {
             rotatorEffect.SetActive(true);
             rotationAngle += rotationSpeed * Time.deltaTime;
@@ -67,17 +87,20 @@ public class PlayerItemEffects : MonoBehaviour
             Vector3 offset = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad)) * rotationRadius;
             rotatorEffect.transform.position = player.position + offset;
         }
-        else
+        else if (rotatorEffect != null)
         {
             rotatorEffect.SetActive(false);
         }
+    }
 
-        // 발사 처리
-        if (useProjectile && Time.time >= nextFireTime)
-        {
-            FireHealingShot();
-            nextFireTime = Time.time + fireInterval;
-        }
+    void FireBasicShot()
+    {
+        Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mouseWorld.z = 0;
+        Vector2 direction = (mouseWorld - player.position).normalized;
+
+        GameObject shot = Instantiate(basicShotPrefab, firePoint.position, Quaternion.identity);
+        shot.GetComponent<BasicProjectile>().Initialize(direction, basicShotLevel);
     }
 
     void FireHealingShot()
@@ -87,28 +110,7 @@ public class PlayerItemEffects : MonoBehaviour
         Vector2 direction = (mouseWorld - player.position).normalized;
 
         GameObject shot = Instantiate(healingShotPrefab, firePoint.position, Quaternion.identity);
-        shot.GetComponent<HealingShot>().Initialize(direction, healChance);
-    }
-
-    public void UpdateUI()
-    {
-        if (zoneText != null)
-        {
-            string zoneStatus = useZone ? $"ON (LV{zoneLevel})" : "OFF";
-            zoneText.text = $"장판: {zoneStatus}";
-        }
-
-        if (rotatorText != null)
-        {
-            string rotatorStatus = useRotator ? $"ON (LV{rotatorLevel})" : "OFF";
-            rotatorText.text = $"회전: {rotatorStatus}";
-        }
-
-        if (projectileText != null)
-        {
-            string projectileStatus = useProjectile ? $"ON (LV{projectileLevel})" : "OFF";
-            projectileText.text = $"발사: {projectileStatus}";
-        }
+        shot.GetComponent<HealingShot>().Initialize(direction, healChance, healingShotLevel);
     }
 
     public void ActivateItem(ItemType type)
@@ -118,21 +120,45 @@ public class PlayerItemEffects : MonoBehaviour
             case ItemType.Zone:
                 useZone = true;
                 zoneLevel++;
-                zoneEffect.GetComponent<EnemyZoneDamage>().damage = baseDamage + zoneLevel;
+
+                if (zoneEffectInstance == null)
+                    zoneEffectInstance = Instantiate(zoneEffectPrefab);
+
+                zoneEffectInstance.SetActive(true);
+                ZoneEffectController z = zoneEffectInstance.GetComponent<ZoneEffectController>();
+                if (z != null)
+                    z.SetLevel(zoneLevel);
                 break;
 
             case ItemType.Rotator:
                 useRotator = true;
                 rotatorLevel++;
-                rotatorEffect.GetComponent<RotatorDamage>().damage = baseDamage + rotatorLevel;
+
+                if (rotatorManager != null)
+                    rotatorManager.SetLevel(rotatorLevel);
                 break;
 
             case ItemType.HealingShot:
-                useProjectile = true;
-                projectileLevel++;
+                useHealingShot = true;
+                healingShotLevel++;
                 break;
         }
 
-        UpdateUI(); // ← 레벨 반영된 상태로 UI 갱신
+        UpdateUI();
+    }
+
+    public void UpdateUI()
+    {
+        if (zoneText != null)
+            zoneText.text = $"장판: {(useZone ? $"ON (LV{zoneLevel})" : "OFF")}";
+
+        if (rotatorText != null)
+            rotatorText.text = $"회전: {(useRotator ? $"ON (LV{rotatorLevel})" : "OFF")}";
+
+        if (healingShotText != null)
+            healingShotText.text = $"힐샷: {(useHealingShot ? $"ON (LV{healingShotLevel})" : "OFF")}";
+
+        if (basicShotText != null)
+            basicShotText.text = $"기본공격: LV{basicShotLevel}";
     }
 }

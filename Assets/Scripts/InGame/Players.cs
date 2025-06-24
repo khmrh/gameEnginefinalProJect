@@ -47,6 +47,11 @@ public class Players : MonoBehaviour
         Debug.Log("생존 버프 적용됨!");
     }
 
+    public void SetMoveSpeedMultiplier(float multiplier)
+    {
+        moveSpeed = baseMoveSpeed * multiplier;
+    }
+
     void Update()
     {
         input.x = Input.GetAxisRaw("Horizontal");
@@ -72,6 +77,7 @@ public class Players : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         GameManager.Instance?.UpdateHealthUI(currentHealth, maxHealth);
     }
+
 
     public void TakeDamage(int amount)
     {
@@ -102,6 +108,31 @@ public class Players : MonoBehaviour
         if (playerCollider != null)
             playerCollider.enabled = true;
         isInvincible = false;
+    }
+
+
+    public void IncreaseBaseMoveSpeed(float amount)
+    {
+        baseMoveSpeed += amount;
+        moveSpeed = baseMoveSpeed;
+    }
+
+    public void IncreaseMaxHealth(int amount)
+    {
+        maxHealth += amount;
+        currentHealth = maxHealth;
+    }
+
+    public void StartWithAllItemsLevel1()
+    {
+        itemManager.ActivateItem(ItemType.Zone);
+        itemManager.ActivateItem(ItemType.Rotator);
+        itemManager.ActivateItem(ItemType.HealingShot);
+    }
+
+    public void ApplyEnemyDifficultyMultiplier(float factor)
+    {
+        EnemySpawner.SetGlobalDifficultyMultiplier(factor); // 필요 시 구현
     }
 
     void Die()

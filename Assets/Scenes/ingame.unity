@@ -8193,7 +8193,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -77, y: -90}
+  m_AnchoredPosition: {x: -101, y: -90}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &701897287
@@ -8279,7 +8279,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -235.42798, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -8305,6 +8305,7 @@ GameObject:
   - component: {fileID: 721760728}
   - component: {fileID: 721760730}
   - component: {fileID: 721760732}
+  - component: {fileID: 721760734}
   - component: {fileID: 721760733}
   - component: {fileID: 721760727}
   - component: {fileID: 721760731}
@@ -8500,22 +8501,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a36ebf945a5076141a7a5fe49008d592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zoneEffect: {fileID: 7272685730227040552, guid: f299458ca85be9649b191c350624d14c, type: 3}
-  zoneDamageInterval: 1
+  zoneEffectPrefab: {fileID: 7272685730227040552, guid: bc92afc4184434d46ac5836f472093f0, type: 3}
+  useZone: 1
   rotatorEffect: {fileID: 912384569117706139, guid: 5f0ffb8dc85bd9d418175a064b5951d1, type: 3}
   rotationSpeed: 180
   rotationRadius: 1.5
+  rotatorPrefab: {fileID: 912384569117706139, guid: 9712270a54126174890de42973717b84, type: 3}
+  rotatorManager: {fileID: 721760734}
+  useRotator: 1
   healingShotPrefab: {fileID: 5732790891443161134, guid: a6a41b12936b8e042b732a17bad17968, type: 3}
-  firePoint: {fileID: 1437804367}
-  fireInterval: 1.5
+  healingFireInterval: 1.5
   healChance: 0.3
+  useHealingShot: 0
+  basicShotPrefab: {fileID: 664857651926085209, guid: 2d4663594263c5741bb1d97386b7fc53, type: 3}
+  basicFireInterval: 0.5
+  firePoint: {fileID: 1437804367}
   zoneText: {fileID: 1115654142}
   rotatorText: {fileID: 701897287}
-  projectileText: {fileID: 1646056125}
-  useZone: 1
-  useRotator: 1
-  useProjectile: 1
+  healingShotText: {fileID: 0}
+  basicShotText: {fileID: 0}
   baseDamage: 1
+--- !u!114 &721760734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721760725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 193214c0204a4a24a86ca517d3b69a16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotatorPrefab: {fileID: 912384569117706139, guid: 9712270a54126174890de42973717b84, type: 3}
+  level: 1
+  baseSpeed: 180
+  radius: 1.5
 --- !u!1 &729395044
 GameObject:
   m_ObjectHideFlags: 0
@@ -8799,7 +8820,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -77, y: -37}
+  m_AnchoredPosition: {x: -101, y: -30}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1115654142
@@ -8885,7 +8906,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -235.86145, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -9317,7 +9338,7 @@ RectTransform:
   m_GameObject: {fileID: 1617468364}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5482, y: 1.5482, z: 1.5482}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 395695611}
@@ -9416,7 +9437,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -77, y: -148}
+  m_AnchoredPosition: {x: -101, y: -148}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1646056125
@@ -9502,7 +9523,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -231.224, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

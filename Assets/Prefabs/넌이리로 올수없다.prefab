@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8100677009969155138}
-  - component: {fileID: 5308791577463836860}
+  - component: {fileID: -8434001632814402278}
   - component: {fileID: -4182875656336047}
   - component: {fileID: 5794100215171565295}
   - component: {fileID: 3028635249309402664}
@@ -29,13 +29,13 @@ Transform:
   m_GameObject: {fileID: 7272685730227040552}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1.3681264, y: 5.7622366, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &5308791577463836860
+--- !u!212 &-8434001632814402278
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f9c1226b09f53145990df05122a6045, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
+  damage: 7
   damageInterval: 1
 --- !u!114 &5794100215171565295
 MonoBehaviour:

@@ -3,7 +3,11 @@ using UnityEngine;
 
 public class Players : MonoBehaviour
 {
-    public float moveSpeed = 2f;
+
+    public float baseMoveSpeed = 5f; // 기본 이동속도
+    public float moveSpeed = 5f;
+
+    public PlayerItemEffects itemManager;
 
     [Header("체력 설정")]
     public int maxHealth = 5;
@@ -27,6 +31,8 @@ public class Players : MonoBehaviour
         sR = GetComponent<SpriteRenderer>();
         playerCollider = GetComponent<Collider2D>(); // ← Collider2D 가져오기
         rb.bodyType = RigidbodyType2D.Kinematic;
+        if (itemManager == null)
+            itemManager = GetComponent<PlayerItemEffects>();
     }
 
     void Start()
@@ -78,7 +84,11 @@ public class Players : MonoBehaviour
         GameManager.Instance?.UpdateHealthUI(currentHealth, maxHealth);
     }
 
-
+    public void IncreaseBaseMoveSpeed(float amount)
+    {
+        baseMoveSpeed += amount;
+        moveSpeed = baseMoveSpeed;
+    }
     public void TakeDamage(int amount)
     {
         if (isInvincible) return;
@@ -110,12 +120,6 @@ public class Players : MonoBehaviour
         isInvincible = false;
     }
 
-
-    public void IncreaseBaseMoveSpeed(float amount)
-    {
-        baseMoveSpeed += amount;
-        moveSpeed = baseMoveSpeed;
-    }
 
     public void IncreaseMaxHealth(int amount)
     {

@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1744420334356890647}
   - component: {fileID: 8705118954662362462}
-  - component: {fileID: -4663059362453874759}
+  - component: {fileID: 3710431739315863849}
   - component: {fileID: 9170785502085148688}
   m_Layer: 0
-  m_Name: "\uD53C\uD761\uD15C"
+  m_Name: DropHelling
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86,7 +86,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-4663059362453874759
+--- !u!114 &3710431739315863849
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

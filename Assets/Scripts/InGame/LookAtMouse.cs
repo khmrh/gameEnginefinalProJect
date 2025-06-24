@@ -6,6 +6,8 @@ public class LookAtMouse : MonoBehaviour
     public Transform firePoint;
     public float fireInterval = 0.4f;
 
+    public int basicShotLevel = 1; // 기본 공격의 레벨
+
     private float timer;
 
     void Update()
@@ -29,6 +31,12 @@ public class LookAtMouse : MonoBehaviour
     void Shoot(Vector3 direction)
     {
         GameObject projectile = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
-        projectile.GetComponent<Projectile>().Initialize(direction);
+
+        // ProjectileBase 사용 (기본 공격은 힐링샷이 아님)
+        ProjectileBase pb = projectile.GetComponent<ProjectileBase>();
+        if (pb != null)
+        {
+            pb.Initialize(direction, basicShotLevel, false);
+        }
     }
 }

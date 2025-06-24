@@ -3492,7 +3492,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerData:
-    collectedItems: []
+    collectedItems:
+    - 
+    - 
+    - 
     stage: 1
     bestSurvivalTime: 0
 --- !u!4 &1665172312

@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 8100677009969155138}
   - component: {fileID: -8434001632814402278}
-  - component: {fileID: 3096564156950740020}
+  - component: {fileID: -1545656931088212735}
   - component: {fileID: 3028635249309402664}
   - component: {fileID: -6406674804567362352}
   m_Layer: 0
-  m_Name: "\uB179\uC5EC\uBC84\uB9AC\uC790"
+  m_Name: UsingZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,7 +87,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3096564156950740020
+--- !u!114 &-1545656931088212735
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,13 +96,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7272685730227040552}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b31567ba15b480743993438efd6ca42d, type: 3}
+  m_Script: {fileID: 11500000, guid: 78828487b4dd5d843b9390e8ddb2197b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
-  tickInterval: 0.8
-  baseScale: 1
-  level: 1
+  healInterval: 2
+  baseHealAmount: 1
+  moveSpeedBonus: 1
+  duration: -1
 --- !u!61 &3028635249309402664
 BoxCollider2D:
   m_ObjectHideFlags: 0

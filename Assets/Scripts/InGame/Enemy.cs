@@ -64,10 +64,11 @@ public class Enemy : MonoBehaviour
 
     public void ApplyDifficultyScaling(float healthMultiplier, float speedMultiplier)
     {
-        maxHealth = Mathf.RoundToInt(maxHealth * healthMultiplier);
-        currentHealth = maxHealth;
+        baseHealth = Mathf.RoundToInt(baseHealth * healthMultiplier);
+        currentHealth = baseHealth;
         moveSpeed *= speedMultiplier;
     }
+
 
 
     public void TakeDamage(int amount)

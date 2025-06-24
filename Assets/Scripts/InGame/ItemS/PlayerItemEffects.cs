@@ -100,7 +100,9 @@ public class PlayerItemEffects : MonoBehaviour
         Vector2 direction = (mouseWorld - player.position).normalized;
 
         GameObject shot = Instantiate(basicShotPrefab, firePoint.position, Quaternion.identity);
-        shot.GetComponent<BasicProjectile>().Initialize(direction, basicShotLevel);
+        var proj = shot.GetComponent<ProjectileBase>();
+        if (proj != null)
+            proj.Initialize(direction, basicShotLevel, false); // Èú¼¦ ¾Æ´Ô
     }
 
     void FireHealingShot()
@@ -110,8 +112,11 @@ public class PlayerItemEffects : MonoBehaviour
         Vector2 direction = (mouseWorld - player.position).normalized;
 
         GameObject shot = Instantiate(healingShotPrefab, firePoint.position, Quaternion.identity);
-        shot.GetComponent<HealingShot>().Initialize(direction, healChance, healingShotLevel);
+        var proj = shot.GetComponent<ProjectileBase>();
+        if (proj != null)
+            proj.Initialize(direction, healingShotLevel, true, healChance); // Èú¼¦
     }
+
 
     public void ActivateItem(ItemType type)
     {

@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 415182299548817503}
   - component: {fileID: 1344261552072162901}
+  - component: {fileID: 6692083339164955461}
   - component: {fileID: 8473477165347199387}
-  - component: {fileID: -5602245212684135583}
   - component: {fileID: 5213499395465987611}
   - component: {fileID: 513396339135770542}
   m_Layer: 0
@@ -88,6 +88,26 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6692083339164955461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9177360128600864349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 186d5b8ed7969fd4cad44a3599f28391, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropItems:
+  - {fileID: 7272685730227040552, guid: f299458ca85be9649b191c350624d14c, type: 3}
+  - {fileID: 5732790891443161134, guid: a6a41b12936b8e042b732a17bad17968, type: 3}
+  - {fileID: 912384569117706139, guid: 5f0ffb8dc85bd9d418175a064b5951d1, type: 3}
+  dropChance: 0.1
+  maxZoneLevel: 5
+  maxRotatorLevel: 5
+  maxHealingShotLevel: 3
 --- !u!114 &8473477165347199387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,23 +123,6 @@ MonoBehaviour:
   baseHealth: 3
   moveSpeed: 2
   damage: 1
-  dropItems:
-  - {fileID: 7272685730227040552, guid: f299458ca85be9649b191c350624d14c, type: 3}
-  - {fileID: 912384569117706139, guid: 5f0ffb8dc85bd9d418175a064b5951d1, type: 3}
-  - {fileID: 5732790891443161134, guid: a6a41b12936b8e042b732a17bad17968, type: 3}
-  dropChance: 1
---- !u!114 &-5602245212684135583
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9177360128600864349}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a9a46578bad90441aae16c2c12a4bab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   dropItems:
   - {fileID: 7272685730227040552, guid: f299458ca85be9649b191c350624d14c, type: 3}
   - {fileID: 912384569117706139, guid: 5f0ffb8dc85bd9d418175a064b5951d1, type: 3}

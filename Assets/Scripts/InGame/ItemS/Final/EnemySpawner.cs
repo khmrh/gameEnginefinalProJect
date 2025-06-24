@@ -5,10 +5,12 @@ public class EnemySpawner : MonoBehaviour
     public GameObject[] enemyPrefabs;
     public float spawnRadius = 8f;
     public float initialSpawnInterval = 3f;
-    public float spawnAccelerationRate = 0.95f; // 스폰 간격 감소 비율
-    public float difficultyIncreaseInterval = 90f; // 90초마다 적 능력 증가
+    public float spawnAccelerationRate = 0.95f;
+    public float difficultyIncreaseInterval = 90f;
     public float healthMultiplierPerStage = 1.2f;
     public float speedMultiplierPerStage = 1.1f;
+
+    public static float globalDifficultyMultiplier = 1f;
 
     private float spawnTimer = 0f;
     private float currentSpawnInterval;
@@ -52,9 +54,14 @@ public class EnemySpawner : MonoBehaviour
         Enemy enemyScript = enemy.GetComponent<Enemy>();
         if (enemyScript != null)
         {
-            float healthBoost = Mathf.Pow(healthMultiplierPerStage, difficultyStage);
-            float speedBoost = Mathf.Pow(speedMultiplierPerStage, difficultyStage);
+            float healthBoost = Mathf.Pow(healthMultiplierPerStage, difficultyStage) * globalDifficultyMultiplier;
+            float speedBoost = Mathf.Pow(speedMultiplierPerStage, difficultyStage) * globalDifficultyMultiplier;
             enemyScript.ApplyDifficultyScaling(healthBoost, speedBoost);
         }
+    }
+
+    public static void SetGlobalDifficultyMultiplier(float multiplier)
+    {
+        globalDifficultyMultiplier = multiplier;
     }
 }

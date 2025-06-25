@@ -4,44 +4,63 @@ using System.Collections.Generic;
 public class RotatorManager : MonoBehaviour
 {
     public GameObject rotatorPrefab;
-    public int level = 1;
-
-    public float baseSpeed = 180f;
     public float radius = 1.5f;
+    public float rotationSpeed = 180f;
 
     private List<GameObject> rotators = new List<GameObject>();
+    private int currentLevel = 0;
 
-    void Start()
+
+
+    void Update()
     {
-        UpdateRotators();
+        if (rotators.Count == 0) return;
+
+        float angleStep = 360f / rotators.Count;
+
+        for (int i = 0; i < rotators.Count; i++)
+        {
+            float angle = Time.time * rotationSpeed + angleStep * i;
+            Vector3 offset = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)) * radius;
+
+            if (rotators[i] != null)
+            {
+                rotators[i].transform.localPosition = offset;
+            }
+        }
     }
 
-    public void SetLevel(int newLevel)
+    public void SetLevel(int level)
     {
-        level = newLevel;
+        if (level == currentLevel) return;
+
+        currentLevel = level;
         UpdateRotators();
+        Debug.Log("SetLevel 호출됨 - level: " + level);
     }
 
-    void UpdateRotators()
+    private void UpdateRotators()
     {
-        // 기존 삭제
-        foreach (GameObject r in rotators)
-            Destroy(r);
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+
         rotators.Clear();
 
-        // 새로 생성
-        for (int i = 0; i < level; i++)
+        for (int i = 0; i < currentLevel; i++)
         {
-            GameObject r = Instantiate(rotatorPrefab, transform);
-            Rotator logic = r.GetComponent<Rotator>();
-            float angleOffset = (360f / level) * i;
+            GameObject instance = Instantiate(rotatorPrefab);
+            instance.SetActive(true);
+            instance.transform.SetParent(transform, false);
+            instance.transform.localRotation = Quaternion.identity;
 
-            if (logic != null)
-            {
-                logic.Init(this.transform, radius, baseSpeed + (level * 50f), angleOffset);
-            }
+            float angle = 360f / currentLevel * i;
+            Vector3 offset = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)) * radius;
+            instance.transform.localPosition = offset;
 
-            rotators.Add(r);
+            rotators.Add(instance);
+            Debug.Log("Rotator 생성됨: " + instance.name);
         }
     }
 }

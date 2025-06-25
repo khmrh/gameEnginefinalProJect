@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class DamageDealer : MonoBehaviour
 {
-    [Header("데미지 설정")]
     public int baseDamage = 1;
     public float damageInterval = 0.5f;
     public bool useKnockback = true;
@@ -24,7 +23,8 @@ public class DamageDealer : MonoBehaviour
             Enemy enemy = other.GetComponent<Enemy>();
             if (enemy != null)
             {
-                enemy.TakeDamage(baseDamage);
+                int bonus = GameManager.Instance != null ? GameManager.Instance.GetBonusDamage() : 0;
+                enemy.TakeDamage(baseDamage + bonus);
                 damageTimer = 0f;
 
                 if (useKnockback)

@@ -4,12 +4,15 @@ using UnityEngine;
 public class MainMenuUIManager : MonoBehaviour
 {
     public TextMeshProUGUI bestSurvivalTimeText;
+    public TextMeshProUGUI collectedItemsText;
+    public TextMeshProUGUI killCountText;
 
     void Start()
     {
         PlayerData data = GameDataManager.Instance.LoadData();
-        string formatted = FormatTime(data.bestSurvivalTime);
-        bestSurvivalTimeText.text = $"최고 생존 시간: {formatted}";
+        bestSurvivalTimeText.text = $"최고 생존 시간: {FormatTime(data.bestSurvivalTime)}";
+        killCountText.text = $"총 처치 수: {data.totalKills}";
+        collectedItemsText.text = $"획득 아이템: {string.Join(", ", data.collectedItems)}";
     }
 
     string FormatTime(float time)

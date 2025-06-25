@@ -1,30 +1,34 @@
-using UnityEngine;
+Ôªøusing UnityEngine;
 using TMPro;
 
 public class PlayerItemEffects : MonoBehaviour
 {
-
     public int GetZoneLevel() => zoneLevel;
     public int GetRotatorLevel() => rotatorLevel;
     public int GetHealingShotLevel() => healingShotLevel;
 
-    [Header("1. ¿Â∆««¸ (Zone Effect)")]
+    [Header("ÏïÑÏù¥ÌÖú ÏµúÎåÄ Î†àÎ≤® Ï†úÌïú")]
+    [SerializeField] int maxZoneLevel = 5;
+    [SerializeField] int maxRotatorLevel = 5;
+    [SerializeField] int maxHealingShotLevel = 5;
+
+    [Header("1. Ï°¥ Ïù¥ÌéôÌä∏ (Zone Effect)")]
     public GameObject zoneEffectPrefab;
     private GameObject zoneEffectInstance;
     private int zoneLevel = 0;
     public bool useZone = false;
 
-    [Header("2. »∏¿¸«¸ (Rotator Effect)")]
-    public GameObject rotatorEffect;
+    [Header("2. ÌöåÏ†ÑÏ≤¥ (Rotator Effect)")]
     public float rotationSpeed = 180f;
     public float rotationRadius = 1.5f;
     private float rotationAngle = 0f;
+
     [SerializeField] GameObject rotatorPrefab;
-    [SerializeField] RotatorManager rotatorManager;
+    [SerializeField] RotatorManager _rotatorManager;
     private int rotatorLevel = 0;
     public bool useRotator = false;
 
-    [Header("3. »˙∏µº¶ (Healing Shot)")]
+    [Header("3. ÌûêÎßÅÏÉ∑ (Healing Shot)")]
     public GameObject healingShotPrefab;
     public float healingFireInterval = 1.5f;
     private float nextHealingFireTime = 0f;
@@ -32,16 +36,16 @@ public class PlayerItemEffects : MonoBehaviour
     private int healingShotLevel = 0;
     public bool useHealingShot = false;
 
-    [Header("4. ±‚∫ª ¿⁄µø ∞¯∞›")]
+    [Header("4. Í∏∞Î≥∏ ÏûêÎèô Î∞úÏÇ¨")]
     public GameObject basicShotPrefab;
     public float basicFireInterval = 0.5f;
     private float nextBasicFireTime = 0f;
     private int basicShotLevel = 1;
 
-    [Header("∞¯∞› πﬂªÁ ¿ßƒ°")]
+    [Header("Î∞úÏÇ¨ ÏúÑÏπò")]
     public Transform firePoint;
 
-    [Header("UI «•Ω√")]
+    [Header("UI ÌëúÏãú")]
     public TextMeshProUGUI zoneText;
     public TextMeshProUGUI rotatorText;
     public TextMeshProUGUI healingShotText;
@@ -58,38 +62,24 @@ public class PlayerItemEffects : MonoBehaviour
 
     private void Update()
     {
-        // ±‚∫ª ∞¯∞›
         if (Time.time >= nextBasicFireTime)
         {
             FireBasicShot();
             nextBasicFireTime = Time.time + basicFireInterval;
         }
 
-        // »˙∏µº¶
         if (useHealingShot && Time.time >= nextHealingFireTime)
         {
             FireHealingShot();
             nextHealingFireTime = Time.time + healingFireInterval;
         }
 
-        // ¿Â∆« √≥∏Æ
         if (useZone && zoneEffectInstance != null)
         {
-            zoneEffectInstance.transform.position = transform.position;
-        }
+            if (!zoneEffectInstance.activeSelf)
+                zoneEffectInstance.SetActive(true);
 
-        // »∏¿¸ √≥∏Æ
-        if (useRotator && rotatorEffect != null)
-        {
-            rotatorEffect.SetActive(true);
-            rotationAngle += rotationSpeed * Time.deltaTime;
-            float rad = rotationAngle * Mathf.Deg2Rad;
-            Vector3 offset = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad)) * rotationRadius;
-            rotatorEffect.transform.position = player.position + offset;
-        }
-        else if (rotatorEffect != null)
-        {
-            rotatorEffect.SetActive(false);
+            zoneEffectInstance.transform.position = transform.position;
         }
     }
 
@@ -101,8 +91,7 @@ public class PlayerItemEffects : MonoBehaviour
 
         GameObject shot = Instantiate(basicShotPrefab, firePoint.position, Quaternion.identity);
         var proj = shot.GetComponent<ProjectileBase>();
-        if (proj != null)
-            proj.Initialize(direction, basicShotLevel, false); // »˙º¶ æ∆¥‘
+        if (proj != null) proj.Initialize(direction, basicShotLevel, false);
     }
 
     void FireHealingShot()
@@ -113,39 +102,48 @@ public class PlayerItemEffects : MonoBehaviour
 
         GameObject shot = Instantiate(healingShotPrefab, firePoint.position, Quaternion.identity);
         var proj = shot.GetComponent<ProjectileBase>();
-        if (proj != null)
-            proj.Initialize(direction, healingShotLevel, true, healChance); // »˙º¶
+        if (proj != null) proj.Initialize(direction, healingShotLevel, true, healChance);
     }
-
 
     public void ActivateItem(ItemType type)
     {
         switch (type)
         {
             case ItemType.Zone:
-                useZone = true;
-                zoneLevel++;
+                if (zoneLevel < maxZoneLevel)
+                {
+                    useZone = true;
+                    zoneLevel++;
 
-                if (zoneEffectInstance == null)
-                    zoneEffectInstance = Instantiate(zoneEffectPrefab);
+                    if (zoneEffectInstance == null)
+                        zoneEffectInstance = Instantiate(zoneEffectPrefab);
 
-                zoneEffectInstance.SetActive(true);
-                ZoneEffectController z = zoneEffectInstance.GetComponent<ZoneEffectController>();
-                if (z != null)
-                    z.SetLevel(zoneLevel);
+                    zoneEffectInstance.SetActive(true);
+                    var z = zoneEffectInstance.GetComponent<ZoneEffectController>();
+                    if (z != null) z.SetLevel(zoneLevel);
+
+                    ApplyZoneEffects();
+                }
                 break;
 
             case ItemType.Rotator:
-                useRotator = true;
-                rotatorLevel++;
+                if (rotatorLevel < maxRotatorLevel)
+                {
+                    useRotator = true;
+                    rotatorLevel++;
 
-                if (rotatorManager != null)
-                    rotatorManager.SetLevel(rotatorLevel);
+                    if (_rotatorManager != null)
+                        _rotatorManager.SetLevel(rotatorLevel);
+                }
                 break;
 
             case ItemType.HealingShot:
-                useHealingShot = true;
-                healingShotLevel++;
+                if (healingShotLevel < maxHealingShotLevel)
+                {
+                    useHealingShot = true;
+                    healingShotLevel++;
+                    ApplyHealingShotEffects();
+                }
                 break;
         }
 
@@ -154,16 +152,33 @@ public class PlayerItemEffects : MonoBehaviour
 
     public void UpdateUI()
     {
-        if (zoneText != null)
-            zoneText.text = $"¿Â∆«: {(useZone ? $"ON (LV{zoneLevel})" : "OFF")}";
+        if (zoneText != null) zoneText.text = $"Ï°¥: {(useZone ? $"ON (LV{zoneLevel})" : "OFF")}";
+        if (rotatorText != null) rotatorText.text = $"ÌöåÏ†Ñ: {(useRotator ? $"ON (LV{rotatorLevel})" : "OFF")}";
+        if (healingShotText != null) healingShotText.text = $"ÌûêÎßÅ: {(useHealingShot ? $"ON (LV{healingShotLevel})" : "OFF")}";
+        if (basicShotText != null) basicShotText.text = $"Í∏∞Î≥∏Í≥µÍ≤©: LV{basicShotLevel}";
+    }
 
-        if (rotatorText != null)
-            rotatorText.text = $"»∏¿¸: {(useRotator ? $"ON (LV{rotatorLevel})" : "OFF")}";
+    void ApplyZoneEffects()
+    {
+        var moveScript = GetComponent<Players>();
+        if (moveScript != null)
+        {
+            moveScript.moveSpeed = moveScript.baseMoveSpeed + zoneLevel * 0.5f;
+            moveScript.currentAttackInterval = moveScript.baseAttackInterval / (1f + zoneLevel * 0.2f);
+        }
 
-        if (healingShotText != null)
-            healingShotText.text = $"»˙º¶: {(useHealingShot ? $"ON (LV{healingShotLevel})" : "OFF")}";
+        basicFireInterval = Mathf.Max(0.1f, 0.5f - zoneLevel * 0.05f); // Í∏∞Î≥∏ÏÉ∑ ÏÜçÎèÑÎèÑ Îî∞Î°ú Ï†ÅÏö©ÌïòÍ≥† Ïã∂Îã§Î©¥
+    }
 
-        if (basicShotText != null)
-            basicShotText.text = $"±‚∫ª∞¯∞›: LV{basicShotLevel}";
+
+    void ApplyHealingShotEffects()
+    {
+        healChance = 0.3f + healingShotLevel * 0.05f;
+        healingFireInterval = Mathf.Max(0.3f, 1.5f - healingShotLevel * 0.2f);
+    }
+
+    public int GetRotatorDamage()
+    {
+        return baseDamage + rotatorLevel * 2;
     }
 }

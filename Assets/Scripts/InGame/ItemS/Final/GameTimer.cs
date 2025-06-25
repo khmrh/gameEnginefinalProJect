@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class GameTimer : MonoBehaviour
 {
-    public float maxGameTime = 600f; // 10분 제한
+    public float maxGameTime = 300f; // 10분 제한
     private float elapsedTime = 0f;
     private bool isGameOver = false;
 

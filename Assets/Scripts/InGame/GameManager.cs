@@ -17,6 +17,20 @@ public class GameManager : MonoBehaviour
 
     private bool isGameOver = false;
 
+    public int enemyKillCount = 0;
+    public int killThreshold = 10;
+    public int damageIncreasePerThreshold = 1;
+
+    public int GetBonusDamage()
+    {
+        return (enemyKillCount / killThreshold) * damageIncreasePerThreshold;
+    }
+
+    public void RegisterKill()
+    {
+        enemyKillCount++;
+    }
+
     private void Awake()
     {
         if (Instance == null)

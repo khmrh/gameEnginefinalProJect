@@ -8,6 +8,7 @@ public class PlayerData
     public List<string> collectedItems = new List<string>();
     public int stage = 1;
     public float bestSurvivalTime = 0f;
+    public int totalKills = 0;
 }
 
 public class GameDataManager : MonoBehaviour

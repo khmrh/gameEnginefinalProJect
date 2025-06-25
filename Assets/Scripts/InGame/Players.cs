@@ -6,6 +6,8 @@ public class Players : MonoBehaviour
 
     public float baseMoveSpeed = 5f; // 기본 이동속도
     public float moveSpeed = 5f;
+    public float baseAttackInterval = 1.0f;
+    public float currentAttackInterval = 1.0f;
 
     public PlayerItemEffects itemManager;
 
@@ -69,6 +71,18 @@ public class Players : MonoBehaviour
             sR.sprite = Mathf.Abs(input.x) > Mathf.Abs(input.y)
                 ? (input.x > 0 ? spriteRight : spriteLeft)
                 : (input.y > 0 ? spriteup : spriteDown);
+        }
+
+        if (itemManager != null && itemManager.useZone)
+        {
+            int zoneLevel = itemManager.GetZoneLevel();
+            moveSpeed = baseMoveSpeed + zoneLevel * 0.5f;
+            currentAttackInterval = baseAttackInterval / (1f + zoneLevel * 0.2f);
+        }
+        else
+        {
+            moveSpeed = baseMoveSpeed;
+            currentAttackInterval = baseAttackInterval;
         }
     }
 

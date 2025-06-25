@@ -1,3 +1,4 @@
+
 using UnityEngine;
 
 public class ProjectileBase : MonoBehaviour
@@ -39,13 +40,14 @@ public class ProjectileBase : MonoBehaviour
             Enemy enemy = other.GetComponent<Enemy>();
             if (enemy != null)
             {
-                enemy.TakeDamage(baseDamage + level);
+                int bonus = GameManager.Instance != null ? GameManager.Instance.GetBonusDamage() : 0;
+                enemy.TakeDamage(baseDamage + level + bonus);
 
                 if (isHealingShot && Random.value <= healChance)
                 {
                     Players player = FindObjectOfType<Players>();
                     if (player != null)
-                        player.Heal(1 + level); // 레벨 기반 회복량 증가 가능
+                        player.Heal(1 + level);
                 }
             }
 

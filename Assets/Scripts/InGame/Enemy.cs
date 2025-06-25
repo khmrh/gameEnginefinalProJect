@@ -83,7 +83,13 @@ public class Enemy : MonoBehaviour
     void Die()
     {
         GetComponent<ItemDrop>()?.TryDropItem();
+        KillCounter.AddKill();
         Destroy(gameObject);
     }
 
+    void OnDestroy()
+    {
+        if (GameManager.Instance != null)
+            GameManager.Instance.RegisterKill();
+    }
 }
